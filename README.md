@@ -1,6 +1,8 @@
-# movieapp
 
-A new Flutter project.
+<center>
+  # Flickssi
+</center>
+If you want to run this project, the minimun sdk version should be: 2.18.2 
 
 ## Getting Started
 
