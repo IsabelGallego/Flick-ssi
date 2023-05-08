@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:movieapp/constants/constants.dart';
-import 'package:movieapp/pages/favourite_page.dart';
-import 'package:movieapp/pages/home_page.dart';
-import 'package:movieapp/pages/profile_page.dart';
-import 'package:movieapp/pages/search_page.dart';
+import 'package:flickssi/constants/constants.dart';
+import 'package:flickssi/pages/favourite_page.dart';
+import 'package:flickssi/pages/home_page.dart';
+import 'package:flickssi/pages/profile_page.dart';
+import 'package:flickssi/pages/search_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

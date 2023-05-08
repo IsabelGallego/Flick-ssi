@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:movieapp/constants/constants.dart';
-import 'package:movieapp/controller/controller.dart';
-import 'package:movieapp/api/api_constants.dart';
-import 'package:movieapp/widgets/icon_widget.dart';
-import 'package:movieapp/widgets/text1.dart';
+import 'package:flickssi/constants/constants.dart';
+import 'package:flickssi/controller/controller.dart';
+import 'package:flickssi/api/api_constants.dart';
+import 'package:flickssi/widgets/icon_widget.dart';
+import 'package:flickssi/widgets/text1.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});

@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
-import 'package:movieapp/api/api_client.dart';
-import 'package:movieapp/models/cast_model.dart';
-import 'package:movieapp/models/movie_detail_model.dart';
-import 'package:movieapp/models/movie_model.dart';
+import 'package:flickssi/api/api_client.dart';
+import 'package:flickssi/models/cast_model.dart';
+import 'package:flickssi/models/movie_detail_model.dart';
+import 'package:flickssi/models/movie_model.dart';
 
 class MovieController extends GetxController {
   ApiClient apiClient = ApiClient();

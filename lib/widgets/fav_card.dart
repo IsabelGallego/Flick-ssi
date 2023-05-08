@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:movieapp/constants/constants.dart';
-import 'package:movieapp/widgets/icon_widget.dart';
-import 'package:movieapp/widgets/text1.dart';
-import 'package:movieapp/widgets/text2.dart';
+import 'package:flickssi/constants/constants.dart';
+import 'package:flickssi/widgets/icon_widget.dart';
+import 'package:flickssi/widgets/text1.dart';
+import 'package:flickssi/widgets/text2.dart';
 
 class FavCard extends StatelessWidget {
   final String imgUrl, title, overview, rating, runtime, releaseDate;
@@ -73,8 +73,6 @@ class FavCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  
-                  
                 ],
               ),
             ),

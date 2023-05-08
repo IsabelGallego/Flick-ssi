@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:movieapp/constants/constants.dart';
-import 'package:movieapp/widgets/icon_widget.dart';
-import 'package:movieapp/widgets/text1.dart';
-import 'package:movieapp/widgets/text2.dart';
+import 'package:flickssi/constants/constants.dart';
+import 'package:flickssi/widgets/icon_widget.dart';
+import 'package:flickssi/widgets/text1.dart';
+import 'package:flickssi/widgets/text2.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -20,7 +20,6 @@ class LoginPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 110),
-                
                 const SizedBox(height: 10),
                 const Text(
                   'Flick-SSI',

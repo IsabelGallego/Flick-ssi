@@ -1,13 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:movieapp/controller/controller.dart';
-import 'package:movieapp/api/api_constants.dart';
-import 'package:movieapp/widgets/circular_indicator.dart';
-import 'package:movieapp/widgets/header_tile.dart';
-import 'package:movieapp/widgets/horizontal_movie_card.dart';
-import 'package:movieapp/widgets/vertical_movie_card.dart';
-import 'package:movieapp/widgets/text1.dart';
+import 'package:flickssi/controller/controller.dart';
+import 'package:flickssi/api/api_constants.dart';
+import 'package:flickssi/widgets/circular_indicator.dart';
+import 'package:flickssi/widgets/header_tile.dart';
+import 'package:flickssi/widgets/horizontal_movie_card.dart';
+import 'package:flickssi/widgets/vertical_movie_card.dart';
+import 'package:flickssi/widgets/text1.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

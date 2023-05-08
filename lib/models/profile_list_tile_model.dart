@@ -1,4 +1,4 @@
-import 'package:movieapp/constants/constants.dart';
+import 'package:flickssi/constants/constants.dart';
 
 class ProfileListTileModel {
   final String iconPath, title, subtitle;
@@ -7,15 +7,10 @@ class ProfileListTileModel {
 }
 
 List<ProfileListTileModel> profileListTile = [
-  ProfileListTileModel(
-      'Cuenta', 'Gestiona tu cuenta', MyIcons.key),
+  ProfileListTileModel('Cuenta', 'Gestiona tu cuenta', MyIcons.key),
   ProfileListTileModel('Notificaciones', 'Mensajes', MyIcons.bell),
   ProfileListTileModel(
       'Datos y almacenamiento', 'Gestión de favoritos', MyIcons.data),
- 
-  ProfileListTileModel(
-      'Sobre nosotros', 'Flick-SSI', MyIcons.earth),
-  ProfileListTileModel(
-      'Cerrar sesión', '', MyIcons.apagar),
-  
+  ProfileListTileModel('Sobre nosotros', 'Flick-SSI', MyIcons.earth),
+  ProfileListTileModel('Cerrar sesión', '', MyIcons.apagar),
 ];

@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:movieapp/models/cast_model.dart';
-import 'package:movieapp/models/movie_detail_model.dart';
-import 'package:movieapp/models/movie_model.dart';
+import 'package:flickssi/models/cast_model.dart';
+import 'package:flickssi/models/movie_detail_model.dart';
+import 'package:flickssi/models/movie_model.dart';
 
 class ApiConstants {
   static const String baseUrl = "https://api.themoviedb.org/3/";
@@ -12,7 +12,6 @@ class ApiConstants {
 }
 
 class ApiClient extends GetxController {
-
   Future<List<MovieModel>> getTrendingMovies() async {
     String uri =
         '${ApiConstants.baseUrl}trending/movie/week?${ApiConstants.apiKEY}';

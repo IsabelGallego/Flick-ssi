@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:movieapp/controller/controller.dart';
-import 'package:movieapp/api/api_constants.dart';
-import 'package:movieapp/widgets/circular_indicator.dart';
-import 'package:movieapp/widgets/fav_card.dart';
-import 'package:movieapp/widgets/text1.dart';
+import 'package:flickssi/controller/controller.dart';
+import 'package:flickssi/api/api_constants.dart';
+import 'package:flickssi/widgets/circular_indicator.dart';
+import 'package:flickssi/widgets/fav_card.dart';
+import 'package:flickssi/widgets/text1.dart';
 
 class FavouritesPage extends StatefulWidget {
   const FavouritesPage({super.key});

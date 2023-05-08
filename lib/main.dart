@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:movieapp/pages/home_page.dart';
-import 'package:movieapp/pages/login_page.dart';
-import 'package:movieapp/pages/main_page.dart';
-import 'package:movieapp/pages/details_page.dart';
-import 'package:movieapp/themes/themes.dart';
+import 'package:flickssi/pages/home_page.dart';
+import 'package:flickssi/pages/login_page.dart';
+import 'package:flickssi/pages/main_page.dart';
+import 'package:flickssi/pages/details_page.dart';
+import 'package:flickssi/themes/themes.dart';
 
 Future<void> main() async {
   runApp(const MyApp());

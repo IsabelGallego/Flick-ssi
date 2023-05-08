@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:movieapp/constants/constants.dart';
-import 'package:movieapp/models/profile_list_tile_model.dart';
-import 'package:movieapp/widgets/icon_widget.dart';
-import 'package:movieapp/widgets/text1.dart';
-import 'package:movieapp/widgets/text2.dart';
-
+import 'package:flickssi/constants/constants.dart';
+import 'package:flickssi/models/profile_list_tile_model.dart';
+import 'package:flickssi/widgets/icon_widget.dart';
+import 'package:flickssi/widgets/text1.dart';
+import 'package:flickssi/widgets/text2.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -32,8 +31,8 @@ class ProfilePage extends StatelessWidget {
                     CircleAvatar(
                       backgroundColor: Theme.of(context).primaryColor,
                       radius: 40,
-                      backgroundImage:
-                          const AssetImage('assets/images/imagenes-pinguinos-emperadores.png'),
+                      backgroundImage: const AssetImage(
+                          'assets/images/imagenes-pinguinos-emperadores.png'),
                     ),
                     const SizedBox(width: 20),
                     const Text1(
@@ -42,7 +41,6 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                
               ],
             ),
           ),

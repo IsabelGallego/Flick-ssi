@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:movieapp/constants/constants.dart';
-import 'package:movieapp/controller/controller.dart';
-import 'package:movieapp/api/api_constants.dart';
-import 'package:movieapp/widgets/cast_card.dart';
-import 'package:movieapp/widgets/circular_indicator.dart';
-import 'package:movieapp/widgets/icon_widget.dart';
-import 'package:movieapp/widgets/text1.dart';
-import 'package:movieapp/widgets/text2.dart';
-import 'package:movieapp/widgets/title_text.dart';
-import 'package:movieapp/widgets/vertical_movie_card.dart';
+import 'package:flickssi/constants/constants.dart';
+import 'package:flickssi/controller/controller.dart';
+import 'package:flickssi/api/api_constants.dart';
+import 'package:flickssi/widgets/cast_card.dart';
+import 'package:flickssi/widgets/circular_indicator.dart';
+import 'package:flickssi/widgets/icon_widget.dart';
+import 'package:flickssi/widgets/text1.dart';
+import 'package:flickssi/widgets/text2.dart';
+import 'package:flickssi/widgets/title_text.dart';
+import 'package:flickssi/widgets/vertical_movie_card.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({super.key});

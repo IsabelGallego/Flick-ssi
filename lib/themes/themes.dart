@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:movieapp/constants/constants.dart';
+import 'package:flickssi/constants/constants.dart';
 
 class MyThemes {
   static ThemeData darkTheme(BuildContext context) => ThemeData(
@@ -56,7 +56,8 @@ class MyThemes {
           showSelectedLabels: false,
           selectedIconTheme: IconThemeData(size: 30),
           type: BottomNavigationBarType.fixed,
-        ), colorScheme: ColorScheme.light(
+        ),
+        colorScheme: ColorScheme.light(
           brightness: Brightness.light,
           primary: Colors.white,
           secondary: Colors.white.withOpacity(0.4),
