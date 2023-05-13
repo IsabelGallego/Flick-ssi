@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "814533379755",
+    "project_id": "flickssi",
+    "storage_bucket": "flickssi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:814533379755:android:d7a00ec75f1ea0273499ee",
+        "android_client_info": {
+          "package_name": "com.example.flickssi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "814533379755-6hm7lo337gfcfo9ekii4rui3muh13f6h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flickssi",
+            "certificate_hash": "5b2fc0fac23fcb1e2f092367444bafed9046e769"
+          }
+        },
+        {
+          "client_id": "814533379755-2elq2tas20o4kgjgojgdh4voo70mk4vo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvcfPMIWGTBJMYpIIDMaS4v1TlQf8u_As"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "814533379755-2elq2tas20o4kgjgojgdh4voo70mk4vo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
