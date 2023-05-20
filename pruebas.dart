@@ -1,16 +1,16 @@
-import 'package:flickssi/pages/main_page.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:flickssi/constants/constants.dart';
-import 'package:flickssi/widgets/icon_widget.dart';
-import 'package:flickssi/widgets/text1.dart';
-import 'package:flickssi/widgets/text2.dart';
-import 'package:flickssi/services/firebase_service.dart';
+//import 'package:flickssi/pages/main_page.dart';
+//import 'package:flutter/material.dart';
+//import 'package:get/get.dart';
+//import 'package:flickssi/constants/constants.dart';
+//import 'package:flickssi/widgets/icon_widget.dart';
+//import 'package:flickssi/widgets/text1.dart';
+//import 'package:flickssi/widgets/text2.dart';
+//import 'package:flickssi/services/firebase_service.dart';
 
-import 'package:flutter/material.dart';
-import 'package:flickssi/services/firebase_service.dart';
-import 'package:flickssi/home/home.dart';
-
+//import 'package:flutter/material.dart';
+//import 'package:flickssi/services/firebase_service.dart';
+//import 'package:flickssi/home/home.dart';
+//
 void main() {
   runApp(const MaterialApp(
     title: 'login',
