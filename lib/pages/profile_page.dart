@@ -1,3 +1,4 @@
+import 'package:flickssi/services/firebase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flickssi/constants/constants.dart';
 import 'package:flickssi/models/profile_list_tile_model.dart';
@@ -35,9 +36,40 @@ class ProfilePage extends StatelessWidget {
                           'assets/images/imagenes-pinguinos-emperadores.png'),
                     ),
                     const SizedBox(width: 20),
-                    const Text1(
-                      text: 'Usuario',
-                      fontSize: 25,
+                    FutureBuilder<String?>(
+                      future: FirebaseService.getUserName(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<String?> snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          // Mientras se carga el nombre del usuario, se muestra un indicador de carga
+                          return CircularProgressIndicator();
+                        } else {
+                          if (snapshot.hasData && snapshot.data != null) {
+                            // Si se obtiene el nombre del usuario correctamente, se muestra en el Text widget
+                            return Row(
+                              children: [
+                                Text(
+                                  snapshot.data!,
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            );
+                          } else {
+                            // Si no se puede obtener el nombre del usuario, se muestra un mensaje alternativo
+                            return Text(
+                              'Hola, Usuario',
+                              style: TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            );
+                          }
+                        }
+                      },
                     ),
                   ],
                 ),
