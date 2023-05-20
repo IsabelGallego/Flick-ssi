@@ -49,4 +49,9 @@ class FirebaseService {
       return null;
     }
   }
+
+  static Future<void> signOut() async {
+    await GoogleSignIn().signOut();
+    await FirebaseAuth.instance.signOut();
+  }
 }
