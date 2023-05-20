@@ -1,3 +1,4 @@
+import 'package:flickssi/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       darkTheme: MyThemes.darkTheme(context),
       initialRoute: '/login',
       getPages: [
-        GetPage(name: '/login', page: () => const LoginPage()),
+        GetPage(name: '/login', page: () => const FirstRoute()),
         GetPage(name: '/main', page: () => const MainPage()),
         GetPage(name: '/home', page: () => const HomePage()),
         GetPage(name: '/deatils', page: () => const DetailsPage()),
