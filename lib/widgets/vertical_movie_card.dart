@@ -4,8 +4,12 @@ class VerticalMovieCard extends StatelessWidget {
   final String imgUrl;
   final Function() onTap;
   final double width;
-  const VerticalMovieCard(
-      {super.key, required this.imgUrl, required this.onTap, this.width = 180,});
+  const VerticalMovieCard({
+    super.key,
+    required this.imgUrl,
+    required this.onTap,
+    this.width = 180,
+  });
 
   @override
   Widget build(BuildContext context) {

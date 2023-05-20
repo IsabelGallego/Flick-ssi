@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       darkTheme: MyThemes.darkTheme(context),
       initialRoute: '/login',
       getPages: [
-        GetPage(name: '/login', page: () => const FirstRoute()),
+        GetPage(name: '/login', page: () => const LoginPage()),
         GetPage(name: '/main', page: () => const MainPage()),
         GetPage(name: '/home', page: () => const HomePage()),
         GetPage(name: '/deatils', page: () => const DetailsPage()),

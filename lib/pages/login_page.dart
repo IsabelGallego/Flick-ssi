@@ -1,4 +1,6 @@
 import 'package:flickssi/pages/main_page.dart';
+import 'package:flickssi/widgets/botonGithub.dart';
+import 'package:flickssi/widgets/botonGoogle.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flickssi/constants/constants.dart';
@@ -14,71 +16,59 @@ import 'package:flickssi/home/home.dart';
 void main() {
   runApp(const MaterialApp(
     title: 'login',
-    home: FirstRoute(),
+    home: LoginPage(),
   ));
 }
 
-class FirstRoute extends StatelessWidget {
-  const FirstRoute({super.key});
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("home"),
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 110),
+                const SizedBox(height: 10),
+                const Text(
+                  'Flick-SSI',
+                  style: TextStyle(
+                    fontSize: 35,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                const SizedBox(height: 30),
+                const Text1(
+                  text: 'inicia sesión para continuar',
+                  fontSize: 20,
+                ),
+                const SizedBox(height: 20),
+                const SizedBox(height: 10),
+                const SizedBox(height: 20),
+                const botonGoogle(),
+                const botonGithub(),
+                const SizedBox(height: 10),
+                const Text2(text: '¿Olvidaste tu contraseña?'),
+                const Spacer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Text2(text: '¿No tienes una cuenta? '),
+                    Text2(
+                        text: 'Registrate',
+                        //  fontColor: MyColors.kPrimaryLightTextcolor,
+                        isBold: true),
+                  ],
+                ),
+              ]),
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Center(
-                child: FutureBuilder(
-              future: FirebaseService.firebaseIni(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                          onPressed: () async {
-                            await FirebaseService.signInWithGoogle();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const MainPage()),
-                            );
-                          },
-                          child: Text("Iniciar con Google")),
-                    ],
-                  );
-                } else {
-                  return const CircularProgressIndicator();
-                }
-              },
-            )),
-            Center(
-              child: ElevatedButton(
-                child: const Text('Iniciar con twitter'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const HomeScreen()),
-                  );
-                },
-              ),
-            ),
-            Center(
-              child: ElevatedButton(
-                child: const Text('Iniciar con Facebook'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const HomeScreen()),
-                  );
-                },
-              ),
-            ),
-          ],
-        ));
+      ),
+    );
   }
 }

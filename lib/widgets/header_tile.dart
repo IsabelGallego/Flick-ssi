@@ -30,7 +30,7 @@ class HeaderTile extends StatelessWidget {
                                 ?.color),
                       ),
                       const Text(
-                        'Usuario',
+                        'Patron',
                         style: TextStyle(
                             fontSize: 25, fontWeight: FontWeight.bold),
                       ),

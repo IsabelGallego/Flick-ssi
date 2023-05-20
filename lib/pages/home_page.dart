@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   MovieController movieController = Get.put(MovieController());
-
+  CarouselController _carouselController = CarouselController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,40 +28,48 @@ class _HomePageState extends State<HomePage> {
             const HeaderTile(),
             const Padding(
               padding: EdgeInsets.only(left: 12.0, bottom: 8),
-              child: Text1(text: 'Próximamente'),
+              child: Text1(text: 'Peliculas disponibles'),
             ),
             movieController.upcomingMovies.isNotEmpty
                 ? CarouselSlider.builder(
-                    itemCount: 10,
+                    carouselController: _carouselController,
+                    itemCount: movieController.upcomingMovies.isNotEmpty
+                        ? movieController.upcomingMovies.length * 2
+                        : 0,
                     options: CarouselOptions(
                       autoPlay: true,
                       aspectRatio: 1,
                       height: 200,
                       viewportFraction: 0.90,
                       enlargeCenterPage: true,
+                      enableInfiniteScroll: false,
+                      onPageChanged: (index, reason) {
+                        if (index ==
+                            movieController.upcomingMovies.length * 2 - 1) {
+                          _carouselController.animateToPage(
+                            0,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.ease,
+                          );
+                        }
+                      },
                     ),
                     itemBuilder: (context, index, realIdx) {
+                      final movieIndex =
+                          index % movieController.upcomingMovies.length;
+                      final movie = movieController.upcomingMovies[movieIndex];
                       return HorizontalMovieCard(
                         onTap: () {
                           setState(() {
-                            movieController.getCastList(movieController
-                                .upcomingMovies[index].id
-                                .toString());
-                            movieController.getDetail(movieController
-                                .upcomingMovies[index].id
-                                .toString());
-                            movieController.getSimilar(movieController
-                                .upcomingMovies[index].id
-                                .toString());
+                            movieController.getCastList(movie.id.toString());
+                            movieController.getDetail(movie.id.toString());
+                            movieController.getSimilar(movie.id.toString());
                             Get.toNamed('/deatils');
                           });
                         },
                         imgUrl: ApiConstants.baseImgUrl +
-                            movieController.upcomingMovies[index].backdropPath
-                                .toString(),
-                        movieTitle: movieController
-                            .upcomingMovies[index].originalTitle
-                            .toString(),
+                            movie.backdropPath.toString(),
+                        movieTitle: movie.originalTitle.toString(),
                       );
                     },
                   )
