@@ -159,4 +159,6 @@ class ApiClient extends GetxController {
       rethrow;
     }
   }
+
+  allMovies() {}
 }

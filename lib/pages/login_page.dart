@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flickssi/widgets/text1.dart';
 import 'package:flickssi/widgets/text2.dart';
 
+import 'main_page.dart';
+
 void main() {
   runApp(const MaterialApp(
     title: 'login',
@@ -45,13 +47,11 @@ class LoginPage extends StatelessWidget {
                 const botonGoogle(),
                 const botonGithub(),
                 const SizedBox(height: 10),
-                
                 const Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
                     Text2(text: 'Flick-SSI - Desarrollo móvil '),
-                    
                   ],
                 ),
               ]),

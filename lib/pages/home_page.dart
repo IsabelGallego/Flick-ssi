@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flickssi/models/movie_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flickssi/controller/controller.dart';
@@ -30,34 +31,49 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.only(left: 12.0, bottom: 8),
               child: Text1(text: 'Peliculas disponibles'),
             ),
-            movieController.upcomingMovies.isNotEmpty
+            movieController.popularMovies.isNotEmpty
                 ? CarouselSlider.builder(
                     carouselController: _carouselController,
-                    itemCount: movieController.upcomingMovies.isNotEmpty
-                        ? movieController.upcomingMovies.length * 2
-                        : 0,
+                    itemCount: ((movieController.popularMovies.length +
+                                movieController.topratedMovies.length +
+                                movieController.allMovies.length +
+                                movieController.trendingMovies.length) *
+                            2)
+                        .toInt(),
                     options: CarouselOptions(
                       autoPlay: true,
                       aspectRatio: 1,
                       height: 200,
                       viewportFraction: 0.90,
                       enlargeCenterPage: true,
-                      enableInfiniteScroll: false,
+                      enableInfiniteScroll: true,
                       onPageChanged: (index, reason) {
                         if (index ==
-                            movieController.upcomingMovies.length * 2 - 1) {
+                            ((movieController.popularMovies.length +
+                              movieController.topratedMovies.length +
+                              movieController.allMovies.length +
+                              movieController.trendingMovies.length) * 2 -1))
+                               {
                           _carouselController.animateToPage(
                             0,
-                            duration: Duration(milliseconds: 500),
+                            duration: const Duration(milliseconds: 500),
                             curve: Curves.ease,
                           );
                         }
                       },
                     ),
                     itemBuilder: (context, index, realIdx) {
-                      final movieIndex =
-                          index % movieController.upcomingMovies.length;
-                      final movie = movieController.upcomingMovies[movieIndex];
+                      final List<MovieModel> allMovies = [
+                        ...movieController.popularMovies,
+                        ...movieController.topratedMovies,
+                        ...movieController.allMovies,
+                        ...movieController.trendingMovies,
+                        
+                      ];
+
+                      final movieIndex = index % allMovies.length;
+                      final movie = allMovies[movieIndex];
+
                       return HorizontalMovieCard(
                         onTap: () {
                           setState(() {

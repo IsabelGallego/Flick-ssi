@@ -14,6 +14,7 @@ class MovieController extends GetxController {
   List<MovieModel> similarMovies = <MovieModel>[].obs;
   List<MovieModel> searchedMovies = <MovieModel>[].obs;
   List<CastModel> movieCast = <CastModel>[].obs;
+  List<MovieModel> allMovies = <MovieModel>[].obs;
 
   var movies = MovieDetailModel(
     adult: null,
@@ -72,6 +73,15 @@ class MovieController extends GetxController {
     }
     update();
   }
+
+  void getAll() async {
+  var movies = await apiClient.allMovies(); 
+  if (movies.isNotEmpty) {
+    upcomingMovies = movies;
+  }
+  update();
+}
+
 
   void getSimilar(String id) async {
     var movies = await apiClient.getSimilarMovies(id);

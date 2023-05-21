@@ -79,6 +79,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                   IconWidget(iconPath: MyIcons.share),
                                   SizedBox(width: 10),
                                   IconWidget(iconPath: MyIcons.favourite)
+                                  
                                 ],
                               ),
                             ],
