@@ -1,16 +1,12 @@
+// ignore: file_names
 import 'package:flickssi/pages/main_page.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:flickssi/constants/constants.dart';
-import 'package:flickssi/widgets/icon_widget.dart';
-import 'package:flickssi/widgets/text1.dart';
-import 'package:flickssi/widgets/text2.dart';
+
 import 'package:flickssi/services/firebase_service.dart';
 
-import 'package:flutter/material.dart';
-import 'package:flickssi/services/firebase_service.dart';
-import 'package:flickssi/home/home.dart';
 
+
+// ignore: camel_case_types
 class botonGithub extends StatelessWidget {
   const botonGithub({Key? key}) : super(key: key);
 
@@ -27,6 +23,7 @@ class botonGithub extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () async {
                     await FirebaseService.signInWithGoogle();
+                    // ignore: use_build_context_synchronously
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const MainPage()),

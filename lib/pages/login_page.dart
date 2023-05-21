@@ -1,17 +1,8 @@
-import 'package:flickssi/pages/main_page.dart';
 import 'package:flickssi/widgets/botonGithub.dart';
 import 'package:flickssi/widgets/botonGoogle.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:flickssi/constants/constants.dart';
-import 'package:flickssi/widgets/icon_widget.dart';
 import 'package:flickssi/widgets/text1.dart';
 import 'package:flickssi/widgets/text2.dart';
-import 'package:flickssi/services/firebase_service.dart';
-
-import 'package:flutter/material.dart';
-import 'package:flickssi/services/firebase_service.dart';
-import 'package:flickssi/home/home.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -54,16 +45,13 @@ class LoginPage extends StatelessWidget {
                 const botonGoogle(),
                 const botonGithub(),
                 const SizedBox(height: 10),
-                const Text2(text: '¿Olvidaste tu contraseña?'),
+                
                 const Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
-                    Text2(text: '¿No tienes una cuenta? '),
-                    Text2(
-                        text: 'Registrate',
-                        //  fontColor: MyColors.kPrimaryLightTextcolor,
-                        isBold: true),
+                    Text2(text: 'Flick-SSI - Desarrollo móvil '),
+                    
                   ],
                 ),
               ]),

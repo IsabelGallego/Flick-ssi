@@ -25,7 +25,7 @@ class HeaderTile extends StatelessWidget {
                         AsyncSnapshot<String?> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         // Mientras se carga el nombre del usuario, se muestra un indicador de carga
-                        return CircularProgressIndicator();
+                        return const CircularProgressIndicator();
                       } else {
                         if (snapshot.hasData && snapshot.data != null) {
                           // Si se obtiene el nombre del usuario correctamente, se muestra en el Text widget
@@ -43,7 +43,7 @@ class HeaderTile extends StatelessWidget {
                               ),
                               Text(
                                 snapshot.data!,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -52,7 +52,7 @@ class HeaderTile extends StatelessWidget {
                           );
                         } else {
                           // Si no se puede obtener el nombre del usuario, se muestra un mensaje alternativo
-                          return Text(
+                          return const Text(
                             'Hola, Usuario',
                             style: TextStyle(
                               fontSize: 25,
