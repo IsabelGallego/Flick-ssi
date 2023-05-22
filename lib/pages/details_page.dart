@@ -79,19 +79,28 @@ class _DetailsPageState extends State<DetailsPage> {
 
           List<String>? favoriteMovies =
               userData?['favoriteMovies']?.cast<String>();
+
           if (favoriteMovies == null) {
             favoriteMovies = [movieId];
           } else {
-            favoriteMovies.add(movieId);
+            if (favoriteMovies.contains(movieId)) {
+              favoriteMovies.remove(movieId);
+            } else {
+              favoriteMovies.add(movieId);
+            }
           }
 
           userRef.update({
             'favoriteMovies': favoriteMovies,
           }).then((value) {
             setState(() {
-              isFavorite = true; // Actualizar el estado local
+              isFavorite = favoriteMovies?.contains(movieId) ?? false;
             });
-            print('Película agregada a favoritos del usuario');
+            if (isFavorite) {
+              print('Película agregada a favoritos del usuario');
+            } else {
+              print('Película eliminada de favoritos del usuario');
+            }
           }).catchError((error) {
             // Ocurrió un error al actualizar la lista de favoritos del usuario
             print(
