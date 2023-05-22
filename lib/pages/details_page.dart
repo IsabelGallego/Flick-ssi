@@ -10,9 +10,14 @@ import 'package:flickssi/widgets/text1.dart';
 import 'package:flickssi/widgets/text2.dart';
 import 'package:flickssi/widgets/title_text.dart';
 import 'package:flickssi/widgets/vertical_movie_card.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class DetailsPage extends StatefulWidget {
-  const DetailsPage({super.key});
+  final String? movieId;
+
+  const DetailsPage({this.movieId, Key? key}) : super(key: key);
 
   @override
   State<DetailsPage> createState() => _DetailsPageState();
@@ -20,6 +25,102 @@ class DetailsPage extends StatefulWidget {
 
 class _DetailsPageState extends State<DetailsPage> {
   MovieController movieController = Get.put(MovieController());
+  bool isFavorite = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Obtener el estado de favoritos del usuario en función de la película actual
+    checkIfFavorite();
+    print(isFavorite);
+  }
+
+  void checkIfFavorite() {
+    // Obtén el usuario actual autenticado mediante Firebase Auth
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      // Obtiene la referencia al documento del usuario actual en Firestore
+      DocumentReference userRef =
+          FirebaseFirestore.instance.collection('users').doc(user.uid);
+
+      userRef.get().then((DocumentSnapshot snapshot) {
+        if (snapshot.exists) {
+          Map<String, dynamic>? userData =
+              snapshot.data() as Map<String, dynamic>?;
+
+          List<String>? favoriteMovies =
+              userData?['favoriteMovies']?.cast<String>();
+          if (favoriteMovies != null &&
+              favoriteMovies.contains(widget.movieId)) {
+            setState(() {
+              isFavorite = true;
+            });
+          }
+        }
+      }).catchError((error) {
+        // Ocurrió un error al obtener el documento del usuario
+        print('Error al obtener el documento del usuario: $error');
+      });
+    }
+  }
+
+  void addToFavorites(String movieId) {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      DocumentReference userRef =
+          FirebaseFirestore.instance.collection('users').doc(user.uid);
+
+      userRef.get().then((DocumentSnapshot snapshot) {
+        if (snapshot.exists) {
+          Map<String, dynamic>? userData =
+              snapshot.data() as Map<String, dynamic>?;
+
+          List<String>? favoriteMovies =
+              userData?['favoriteMovies']?.cast<String>();
+          if (favoriteMovies == null) {
+            favoriteMovies = [movieId];
+          } else {
+            favoriteMovies.add(movieId);
+          }
+
+          userRef.update({
+            'favoriteMovies': favoriteMovies,
+          }).then((value) {
+            setState(() {
+              isFavorite = true; // Actualizar el estado local
+            });
+            print('Película agregada a favoritos del usuario');
+          }).catchError((error) {
+            // Ocurrió un error al actualizar la lista de favoritos del usuario
+            print(
+                'Error al actualizar la lista de favoritos del usuario: $error');
+          });
+        } else {
+          // El documento del usuario no existe, realiza la acción adecuada en este caso
+          userRef.set({
+            'favoriteMovies': [movieId],
+          }).then((value) {
+            setState(() {
+              isFavorite = true; // Actualizar el estado local
+            });
+            print(
+                'Se creó un nuevo documento para el usuario con la película agregada a favoritos');
+          }).catchError((error) {
+            // Ocurrió un error al crear el documento del usuario
+            print('Error al crear el documento del usuario: $error');
+          });
+        }
+      }).catchError((error) {
+        // Ocurrió un error al obtener el documento del usuario
+        print('Error al obtener el documento del usuario: $error');
+      });
+    } else {
+      // El usuario no está autenticado, realiza la acción adecuada en este caso
+      print('El usuario no está autenticado');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,14 +175,25 @@ class _DetailsPageState extends State<DetailsPage> {
                                       .toString(),
                                 ),
                               ),
+
+                              // Favoritos
                               Row(
-                                children: const [
+                                children: [
                                   IconWidget(iconPath: MyIcons.share),
                                   SizedBox(width: 10),
-                                  IconWidget(iconPath: MyIcons.favourite)
-                                  
+                                  GestureDetector(
+                                    onTap: () {
+                                      addToFavorites(
+                                          movieController.movies.value.id!);
+                                    },
+                                    child: Icon(
+                                        isFavorite
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
+                                        color: isFavorite ? Colors.red : null),
+                                  ),
                                 ],
-                              ),
+                              )
                             ],
                           ),
                           const SizedBox(height: 10),
