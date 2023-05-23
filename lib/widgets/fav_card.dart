@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flickssi/widgets/text1.dart';
-import 'package:flickssi/widgets/text2.dart';
+import 'package:flickssi/widgets/text_grande.dart';
+import 'package:flickssi/widgets/text_pequeno.dart';
 
 class FavCard extends StatelessWidget {
   final String imgUrl, title, overview, rating, runtime, releaseDate;

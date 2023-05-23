@@ -15,6 +15,7 @@ class MovieController extends GetxController {
   List<MovieModel> searchedMovies = <MovieModel>[].obs;
   List<CastModel> movieCast = <CastModel>[].obs;
   List<MovieModel> allMovies = <MovieModel>[].obs;
+  List<MovieModel> myFavorites = <MovieModel>[].obs;
 
   var movies = MovieDetailModel(
     adult: null,
@@ -75,13 +76,12 @@ class MovieController extends GetxController {
   }
 
   void getAll() async {
-  var movies = await apiClient.allMovies(); 
-  if (movies.isNotEmpty) {
-    upcomingMovies = movies;
+    var movies = await apiClient.allMovies();
+    if (movies.isNotEmpty) {
+      upcomingMovies = movies;
+    }
+    update();
   }
-  update();
-}
-
 
   void getSimilar(String id) async {
     var movies = await apiClient.getSimilarMovies(id);
@@ -105,6 +105,18 @@ class MovieController extends GetxController {
       searchedMovies = search;
     }
     update();
+  }
+
+  Future<dynamic> searchedFavorite(String movieTitle) async {
+    var search = await apiClient.getSearchedMovies(movieTitle);
+    if (search.isNotEmpty) {
+      for (var movie in search) {
+        if (movieTitle == movie.id) {
+          myFavorites.add(movie);
+          return movie;
+        }
+      }
+    }
   }
 
   void getDetail(String id) async {

@@ -45,7 +45,7 @@ class _MainPageState extends State<MainPage> {
       icon: ImageIcon(
         AssetImage(MyIcons.favourite),
       ),
-      label: 'Visual',
+      label: 'Favoritos',
     ),
     BottomNavigationBarItem(
       icon: ImageIcon(
