@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:flickssi/api/api_client.dart';
 import 'package:flickssi/models/cast_model.dart';
 import 'package:flickssi/models/movie_detail_model.dart';
 import 'package:flickssi/models/movie_model.dart';
+
+import '../services/firebase_service.dart';
 
 class MovieController extends GetxController {
   ApiClient apiClient = ApiClient();
@@ -15,7 +18,7 @@ class MovieController extends GetxController {
   List<MovieModel> searchedMovies = <MovieModel>[].obs;
   List<CastModel> movieCast = <CastModel>[].obs;
   List<MovieModel> allMovies = <MovieModel>[].obs;
-  List<MovieModel> myFavorites = <MovieModel>[].obs;
+  List<MovieModel> FavoriteMovies = <MovieModel>[].obs;
 
   var movies = MovieDetailModel(
     adult: null,
@@ -107,21 +110,35 @@ class MovieController extends GetxController {
     update();
   }
 
-  Future<dynamic> searchedFavorite(String movieTitle) async {
-    var search = await apiClient.getSearchedMovies(movieTitle);
-    if (search.isNotEmpty) {
-      for (var movie in search) {
-        if (movieTitle == movie.id) {
-          myFavorites.add(movie);
-          return movie;
-        }
-      }
-    }
-  }
-
   void getDetail(String id) async {
     var movie = await apiClient.getMovieDetails(id);
     movies(movie);
+    update();
+  }
+
+  void getMovieSearchFavorite() async {
+    dynamic user = await FirebaseService.getUser();
+    if (user != null) {
+      DocumentReference userRef =
+          FirebaseFirestore.instance.collection('users').doc(user.uid);
+
+      userRef.get().then((DocumentSnapshot snapshot) {
+        if (snapshot.exists) {
+          Map<String, dynamic>? userData =
+              snapshot.data() as Map<String, dynamic>?;
+
+          List<String>? favoriteMovies =
+              userData?['favoriteMovies']?.cast<String>();
+        }
+        for (var movie in FavoriteMovies){
+          
+        }
+      });
+    } 
+    /*var search = await apiClient.getSearchedMovies();
+    if (search.isNotEmpty) {
+      searchedMovies = search;
+    }*/
     update();
   }
 }

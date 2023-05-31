@@ -1,5 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -52,8 +53,37 @@ class FirebaseService {
     }
   }
 
+  static Future<String?> getUser() async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        return user.uid;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
   static Future<void> signOut() async {
     await GoogleSignIn().signOut();
     await FirebaseAuth.instance.signOut();
+  }
+
+  static Future<dynamic> getUserFavorites() async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        DocumentReference userRef =
+            FirebaseFirestore.instance.collection('users').doc(user.uid);
+
+        return userRef.get();
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
   }
 }

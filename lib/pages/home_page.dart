@@ -8,7 +8,7 @@ import 'package:flickssi/widgets/circular_indicator.dart';
 import 'package:flickssi/widgets/header_tile.dart';
 import 'package:flickssi/widgets/horizontal_movie_card.dart';
 import 'package:flickssi/widgets/vertical_movie_card.dart';
-import 'package:flickssi/widgets/text_grande.dart';
+import 'package:flickssi/widgets/text1.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

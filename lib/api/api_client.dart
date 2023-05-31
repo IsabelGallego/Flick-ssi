@@ -159,24 +159,8 @@ class ApiClient extends GetxController {
       rethrow;
     }
   }
+  
 
-   Future<List<MovieModel>> getMoviesById() async {
-    String uri =
-        '${ApiConstants.baseUrl}movie/upcoming?${ApiConstants.apiKEY}&language=en-US&page=1';
-    try {
-      http.Response response = await http.get(Uri.parse(uri));
-      final data = json.decode(response.body);
-      var result = data['results'];
-
-      List<MovieModel> movies = [];
-      for (var movie in result) {
-        movies.add(MovieModel.fromJson(movie));
-      }
-      return movies;
-    } catch (e) {
-      rethrow;
-    }
-  }
 
   allMovies() {}
 }

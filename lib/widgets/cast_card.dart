@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flickssi/widgets/text_pequeno.dart';
+import 'package:flickssi/widgets/text2.dart';
 
 class CastCard extends StatelessWidget {
   final String imgUrl, castName, character;

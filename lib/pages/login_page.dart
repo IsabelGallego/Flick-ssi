@@ -1,8 +1,8 @@
 import 'package:flickssi/widgets/botonGithub.dart';
 import 'package:flickssi/widgets/botonGoogle.dart';
 import 'package:flutter/material.dart';
-import 'package:flickssi/widgets/text_grande.dart';
-import 'package:flickssi/widgets/text_pequeno.dart';
+import 'package:flickssi/widgets/text1.dart';
+import 'package:flickssi/widgets/text2.dart';
 
 import 'main_page.dart';
 
@@ -45,7 +45,7 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(height: 10),
                 const SizedBox(height: 20),
                 const botonGoogle(),
-                const botonGithub(),
+                
                 const SizedBox(height: 10),
                 const Spacer(),
                 Row(

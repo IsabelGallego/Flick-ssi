@@ -1,6 +1,6 @@
 import 'package:flickssi/services/firebase_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flickssi/widgets/text_pequeno.dart';
+import 'package:flickssi/widgets/text2.dart';
 
 class HeaderTile extends StatelessWidget {
   const HeaderTile({super.key});

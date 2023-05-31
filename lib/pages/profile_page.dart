@@ -4,8 +4,8 @@ import 'package:flickssi/services/firebase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flickssi/models/profile_list_tile_model.dart';
 import 'package:flickssi/widgets/icon_widget.dart';
-import 'package:flickssi/widgets/text_grande.dart';
-import 'package:flickssi/widgets/text_pequeno.dart';
+import 'package:flickssi/widgets/text1.dart';
+import 'package:flickssi/widgets/text2.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class ProfilePage extends StatelessWidget {

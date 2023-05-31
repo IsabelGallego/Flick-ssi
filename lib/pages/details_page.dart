@@ -6,8 +6,8 @@ import 'package:flickssi/api/api_constants.dart';
 import 'package:flickssi/widgets/cast_card.dart';
 import 'package:flickssi/widgets/circular_indicator.dart';
 import 'package:flickssi/widgets/icon_widget.dart';
-import 'package:flickssi/widgets/text_grande.dart';
-import 'package:flickssi/widgets/text_pequeno.dart';
+import 'package:flickssi/widgets/text1.dart';
+import 'package:flickssi/widgets/text2.dart';
 import 'package:flickssi/widgets/title_text.dart';
 import 'package:flickssi/widgets/vertical_movie_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -65,7 +65,9 @@ class _DetailsPageState extends State<DetailsPage> {
     }
   }
 
-  void addToFavorites(String movieId) {
+  void addToFavorites(Map<String, Object?> movieId) {
+    print(movieId);
+
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
@@ -77,15 +79,17 @@ class _DetailsPageState extends State<DetailsPage> {
           Map<String, dynamic>? userData =
               snapshot.data() as Map<String, dynamic>?;
 
-          List<String>? favoriteMovies =
-              userData?['favoriteMovies']?.cast<String>();
+          List<Map<String, Object?>>? favoriteMovies =
+              userData?['favoriteMovies']?.cast<Map<String, Object?>>();
 
           if (favoriteMovies == null) {
             favoriteMovies = [movieId];
           } else {
-            if (favoriteMovies.contains(movieId)) {
-              favoriteMovies.remove(movieId);
-            } else {
+            var index = favoriteMovies.length;
+            favoriteMovies
+                .removeWhere((movie) => movie['movieID'] == movieId['movieID']);
+            var index2 = favoriteMovies.length;
+            if (index == index2) {
               favoriteMovies.add(movieId);
             }
           }
@@ -192,8 +196,21 @@ class _DetailsPageState extends State<DetailsPage> {
                                   SizedBox(width: 10),
                                   GestureDetector(
                                     onTap: () {
-                                      addToFavorites(
-                                          movieController.movies.value.id!);
+                                      var obj = {
+                                        'posterPath': movieController
+                                            .movies.value.posterPath,
+                                        'originalTitle': movieController
+                                            .movies.value.originalTitle,
+                                        'overview': movieController
+                                            .movies.value.overview,
+                                        'voteAverage': movieController
+                                            .movies.value.voteAverage,
+                                        'releaseDate': movieController
+                                            .movies.value.releaseDate,
+                                        'movieID':
+                                            movieController.movies.value.id
+                                      };
+                                      addToFavorites(obj);
                                     },
                                     child: Icon(
                                         isFavorite
