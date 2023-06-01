@@ -7,7 +7,7 @@ import 'package:flickssi/widgets/icon_widget.dart';
 import 'package:flickssi/widgets/text1.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key}) : super(key: key);
+  const SearchPage({super.key});
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -15,40 +15,18 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   MovieController movieController = Get.put(MovieController());
-  TextEditingController searchController = TextEditingController();
+  String query = '';
   final formKey = GlobalKey<FormState>();
-
-  void refreshPage() {
-    setState(() {
-      movieController.searchedMovies.clear();
-      searchController.clear();
-    });
-  }
-
-  void showSnackbar(String message) {
-    Get.snackbar(
-      'No fue posible realizar la búsqueda',
-      message,
-      snackPosition: SnackPosition.BOTTOM,
-      duration: const Duration(seconds: 3),
-      backgroundColor: Colors.black,
-      colorText: Colors.white,
-      borderRadius: 0,
-      margin: const EdgeInsets.all(0),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-    );
-  }
 
   Widget getSearch() {
     return GetBuilder<MovieController>(builder: (controller) {
       return movieController.searchedMovies.isNotEmpty
           ? GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 8,
-                childAspectRatio: 0.52,
-              ),
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
+                  childAspectRatio: 0.52),
               itemCount: movieController.searchedMovies.length,
               itemBuilder: (context, index) {
                 return InkWell(
@@ -59,7 +37,7 @@ class _SearchPageState extends State<SearchPage> {
                         movieController.searchedMovies[index].id.toString());
                     movieController.getSimilar(
                         movieController.searchedMovies[index].id.toString());
-                    Get.toNamed('/details');
+                    Get.toNamed('/deatils');
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -75,16 +53,9 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   ),
                 );
-              },
-            )
+              })
           : const Center(child: Text1(text: 'Busca una pelicula!'));
     });
-  }
-
-  @override
-  void dispose() {
-    searchController.dispose();
-    super.dispose();
   }
 
   @override
@@ -97,65 +68,58 @@ class _SearchPageState extends State<SearchPage> {
         ),
         automaticallyImplyLeading: false,
       ),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          refreshPage();
-          return Future.delayed(const Duration(milliseconds: 500));
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              margin: const EdgeInsets.only(top: 12.0, left: 12, right: 12),
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-              decoration: BoxDecoration(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(top: 12.0, left: 12, right: 12),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Theme.of(context).primaryColor),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: searchController,
-                      key: formKey,
-                      onChanged: (value) {},
-                      autofocus: movieController.searchedMovies.isEmpty,
-                      cursorColor:
-                          Theme.of(context).primaryTextTheme.bodyLarge?.color,
-                      decoration: InputDecoration(
-                        hintText: 'Ingresa el nombre de la pelicula',
-                        border: InputBorder.none,
-                      ),
+                border: Border.all(color: Theme.of(context).primaryColor)),
+            child: Center(
+              child: TextFormField(
+                key: formKey,
+                onChanged: (value) {
+                  query = value;
+                },
+                autofocus:
+                    movieController.searchedMovies.isEmpty ? true : false,
+                cursorColor:
+                    Theme.of(context).primaryTextTheme.bodyLarge?.color,
+                decoration: InputDecoration(
+                  hintText: 'Ingresa el nombre de la pelicula',
+                  border: InputBorder.none,
+                  suffixIcon: IconButton(
+                    icon: const IconWidget(
+                      iconPath: MyIcons.search,
                     ),
-                  ),
-                  IconButton(
-                    icon: const IconWidget(iconPath: MyIcons.search),
                     onPressed: () {
-                      final query = searchController.text.trim();
-                      if (query.isEmpty) {
-                        showSnackbar('El cuadro de búsqueda está vacío');
-                      } else {
-                        FocusScope.of(context).unfocus();
-                        movieController.getMovieSearch(query);
+                      FocusScopeNode currentFocus = FocusScope.of(context);
+                      if (!currentFocus.hasPrimaryFocus &&
+                          currentFocus.focusedChild != null) {
+                        currentFocus.focusedChild?.unfocus();
                       }
+                      movieController.getMovieSearch(query);
+                      setState(() {});
                     },
                   ),
-                ],
+                ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 12.0, top: 20),
-              child: Text1(text: 'Mejores resultados'),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(left: 12.0, top: 20),
+            child: Text1(text: 'Mejores resultados'),
+          ),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.only(top: 12, left: 12, right: 12),
+              height: double.maxFinite,
+              child: getSearch(),
             ),
-            Expanded(
-              child: Container(
-                margin: const EdgeInsets.only(top: 12, left: 12, right: 12),
-                height: double.maxFinite,
-                child: getSearch(),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

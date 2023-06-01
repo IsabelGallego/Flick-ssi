@@ -35,8 +35,9 @@ class _DetailsPageState extends State<DetailsPage> {
   @override
   void initState() {
     super.initState();
+
     // Obtener el estado de favoritos del usuario en función de la película actual
-    checkIfFavorite();
+
     print(isFavorite);
   }
 
@@ -51,18 +52,20 @@ class _DetailsPageState extends State<DetailsPage> {
 
       userRef.get().then((DocumentSnapshot snapshot) {
         if (snapshot.exists) {
-          Map<String, dynamic>? userData =
-              snapshot.data() as Map<String, dynamic>?;
+          Map<dynamic, dynamic>? userData =
+              snapshot.data() as Map<dynamic, dynamic>?;
 
-          List<dynamic>? favoriteMovies =
-              userData?['favoriteMovies'] as List<dynamic>?;
+          Map<dynamic, dynamic>? favoriteMovies =
+              userData?['favoriteMovies'] as Map<dynamic, dynamic>?;
 
           if (favoriteMovies != null) {
-            List<String> favoriteMovieIds = favoriteMovies.cast<String>();
-
-            if (favoriteMovieIds.contains(widget.movieId)) {
+            if (favoriteMovies.containsKey(widget.movieId)) {
               setState(() {
                 isFavorite = true;
+              });
+            } else {
+              setState(() {
+                isFavorite = false;
               });
             }
           }
@@ -74,7 +77,7 @@ class _DetailsPageState extends State<DetailsPage> {
     }
   }
 
-  void addToFavorites(Map<String, Object?> movieId) {
+  void addToFavorites(Map<dynamic, Object?> movieId) {
     print(movieId);
 
     User? user = FirebaseAuth.instance.currentUser;
@@ -85,11 +88,11 @@ class _DetailsPageState extends State<DetailsPage> {
 
       userRef.get().then((DocumentSnapshot snapshot) {
         if (snapshot.exists) {
-          Map<String, dynamic>? userData =
-              snapshot.data() as Map<String, dynamic>?;
+          Map<dynamic, dynamic>? userData =
+              snapshot.data() as Map<dynamic, dynamic>?;
 
-          List<Map<String, Object?>>? favoriteMovies =
-              userData?['favoriteMovies']?.cast<Map<String, Object?>>();
+          List<Map<dynamic, Object?>>? favoriteMovies =
+              userData?['favoriteMovies']?.cast<Map<dynamic, Object?>>();
 
           if (favoriteMovies == null) {
             favoriteMovies = [movieId];
@@ -100,6 +103,7 @@ class _DetailsPageState extends State<DetailsPage> {
             var index2 = favoriteMovies.length;
             if (index == index2) {
               favoriteMovies.add(movieId);
+              
             }
           }
 
@@ -127,7 +131,7 @@ class _DetailsPageState extends State<DetailsPage> {
             'favoriteMovies': [movieId],
           }).then((value) {
             setState(() {
-              isFavorite = true; // Actualizar el estado local
+              isFavorite = false; // Actualizar el estado local
             });
             showSnackBar(
                 'Se creó un nuevo documento para el usuario con la película agregada a favoritos');
