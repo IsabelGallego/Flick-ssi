@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously, no_leading_underscores_for_local_identifiers
-
 import 'package:flickssi/services/firebase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flickssi/models/profile_list_tile_model.dart';
@@ -7,6 +5,8 @@ import 'package:flickssi/widgets/icon_widget.dart';
 import 'package:flickssi/widgets/text1.dart';
 import 'package:flickssi/widgets/text2.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -43,37 +43,46 @@ class ProfilePage extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    CircleAvatar(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      radius: 40,
-                      backgroundImage: const AssetImage(
-                          'assets/images/imagenes-pinguinos-emperadores.png'),
-                    ),
+                    GoogleProfilePhoto(),
                     const SizedBox(width: 20),
-                    FutureBuilder<String?>(
-                      future: FirebaseService.getUserName(),
+                    FutureBuilder<User?>(
+                      future: FirebaseAuth.instance.authStateChanges().first,
                       builder: (BuildContext context,
-                          AsyncSnapshot<String?> snapshot) {
+                          AsyncSnapshot<User?> snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          // Mientras se carga el nombre del usuario, se muestra un indicador de carga
+                          // Mientras se carga el estado de autenticación, se muestra un indicador de carga
                           return const CircularProgressIndicator();
                         } else {
                           if (snapshot.hasData && snapshot.data != null) {
-                            // Si se obtiene el nombre del usuario correctamente, se muestra en el Text widget
-                            return Row(
-                              children: [
-                                Text(
-                                  snapshot.data!,
-                                  style: const TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
+                            final user = snapshot.data!;
+                            final displayName = user.displayName;
+
+                            if (displayName != null) {
+                              // Si se obtiene el nombre del usuario correctamente, se muestra en el Text widget
+                              return Row(
+                                children: [
+                                  Text(
+                                    displayName,
+                                    style: const TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
+                                ],
+                              );
+                            } else {
+                              // Si no se puede obtener el nombre del usuario, se muestra un mensaje alternativo
+                              return const Text(
+                                'Hola, Usuario',
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                              ],
-                            );
+                              );
+                            }
                           } else {
-                            // Si no se puede obtener el nombre del usuario, se muestra un mensaje alternativo
+                            // Si el usuario no ha iniciado sesión, se muestra un mensaje alternativo
                             return const Text(
                               'Hola, Usuario',
                               style: TextStyle(
@@ -118,5 +127,53 @@ class ProfilePage extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class GoogleProfilePhoto extends StatefulWidget {
+  @override
+  _GoogleProfilePhotoState createState() => _GoogleProfilePhotoState();
+}
+
+class _GoogleProfilePhotoState extends State<GoogleProfilePhoto> {
+  User? _user;
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserProfilePhoto();
+  }
+
+  Future<void> _getUserProfilePhoto() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      setState(() {
+        _user = user;
+      });
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _isLoading
+        ? CircularProgressIndicator()
+        : CircleAvatar(
+            radius: 40,
+            backgroundImage: _user?.photoURL != null
+                ? CachedNetworkImageProvider(_user!.photoURL!)
+                : const AssetImage(
+                        'assets/images/imagenes-pinguinos-emperadores.png')
+                    as ImageProvider<Object>,
+            backgroundColor: Theme.of(context).primaryColor,
+          );
   }
 }

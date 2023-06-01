@@ -27,7 +27,7 @@ class LoginPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 110),
+                const SizedBox(height: 180),
                 const SizedBox(height: 10),
                 const Text(
                   'Flick-SSI',
@@ -37,15 +37,19 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 30),
+                Image.asset(
+                  'assets/icons/ic_launcher.png',
+                  width: 80,
+                  height: 80,
+                ),
+                const SizedBox(height: 30),
                 const Text1(
                   text: 'inicia sesión para continuar',
                   fontSize: 20,
                 ),
-                const SizedBox(height: 20),
                 const SizedBox(height: 10),
                 const SizedBox(height: 20),
                 const botonGoogle(),
-                
                 const SizedBox(height: 10),
                 const Spacer(),
                 Row(

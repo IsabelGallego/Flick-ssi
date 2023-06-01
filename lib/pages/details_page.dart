@@ -11,13 +11,18 @@ import 'package:flickssi/widgets/text2.dart';
 import 'package:flickssi/widgets/title_text.dart';
 import 'package:flickssi/widgets/vertical_movie_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class DetailsPage extends StatefulWidget {
   final String? movieId;
+  final Map<String, dynamic> movie;
 
-  const DetailsPage({this.movieId, Key? key}) : super(key: key);
+  const DetailsPage({
+    this.movieId,
+    required this.movie,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<DetailsPage> createState() => _DetailsPageState();
@@ -49,13 +54,17 @@ class _DetailsPageState extends State<DetailsPage> {
           Map<String, dynamic>? userData =
               snapshot.data() as Map<String, dynamic>?;
 
-          List<String>? favoriteMovies =
-              userData?['favoriteMovies']?.cast<String>();
-          if (favoriteMovies != null &&
-              favoriteMovies.contains(widget.movieId)) {
-            setState(() {
-              isFavorite = true;
-            });
+          List<dynamic>? favoriteMovies =
+              userData?['favoriteMovies'] as List<dynamic>?;
+
+          if (favoriteMovies != null) {
+            List<String> favoriteMovieIds = favoriteMovies.cast<String>();
+
+            if (favoriteMovieIds.contains(widget.movieId)) {
+              setState(() {
+                isFavorite = true;
+              });
+            }
           }
         }
       }).catchError((error) {
@@ -101,8 +110,10 @@ class _DetailsPageState extends State<DetailsPage> {
               isFavorite = favoriteMovies?.contains(movieId) ?? false;
             });
             if (isFavorite) {
+              showSnackBar('Película agregada a favoritos');
               print('Película agregada a favoritos del usuario');
             } else {
+              showSnackBar('Película eliminada de favoritos');
               print('Película eliminada de favoritos del usuario');
             }
           }).catchError((error) {
@@ -118,6 +129,8 @@ class _DetailsPageState extends State<DetailsPage> {
             setState(() {
               isFavorite = true; // Actualizar el estado local
             });
+            showSnackBar(
+                'Se creó un nuevo documento para el usuario con la película agregada a favoritos');
             print(
                 'Se creó un nuevo documento para el usuario con la película agregada a favoritos');
           }).catchError((error) {
@@ -133,6 +146,89 @@ class _DetailsPageState extends State<DetailsPage> {
       // El usuario no está autenticado, realiza la acción adecuada en este caso
       print('El usuario no está autenticado');
     }
+  }
+
+  void removeFromFavorites(Map<String, Object?> movieId) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirmación'),
+          content: const Text(
+              '¿Estás seguro de que quieres eliminar la película de tus favoritos?'),
+          actions: [
+            TextButton(
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.red),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancelar'),
+            ),
+            TextButton(
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.red),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                deleteFromFavorites(movieId);
+              },
+              child: const Text('Eliminar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void deleteFromFavorites(Map<String, Object?> movieId) {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      DocumentReference userRef =
+          FirebaseFirestore.instance.collection('users').doc(user.uid);
+
+      userRef.get().then((DocumentSnapshot snapshot) {
+        if (snapshot.exists) {
+          Map<String, dynamic>? userData =
+              snapshot.data() as Map<String, dynamic>?;
+
+          List<Map<String, Object?>>? favoriteMovies =
+              userData?['favoriteMovies']?.cast<Map<String, Object?>>();
+
+          if (favoriteMovies != null) {
+            favoriteMovies
+                .removeWhere((movie) => movie['movieID'] == movieId['movieID']);
+
+            userRef.update({
+              'favoriteMovies': favoriteMovies,
+            }).then((value) {
+              setState(() {
+                isFavorite = favoriteMovies.contains(movieId);
+              });
+              showSnackBar('Película eliminada de favoritos');
+              print('Película eliminada de favoritos del usuario');
+            }).catchError((error) {
+              // Ocurrió un error al actualizar la lista de favoritos del usuario
+              print(
+                  'Error al actualizar la lista de favoritos del usuario: $error');
+            });
+          }
+        }
+      }).catchError((error) {
+        // Ocurrió un error al obtener el documento del usuario
+        print('Error al obtener el documento del usuario: $error');
+      });
+    }
+  }
+
+  void showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
   }
 
   @override
@@ -192,8 +288,6 @@ class _DetailsPageState extends State<DetailsPage> {
                               // Favoritos
                               Row(
                                 children: [
-                                  IconWidget(iconPath: MyIcons.share),
-                                  SizedBox(width: 10),
                                   GestureDetector(
                                     onTap: () {
                                       var obj = {
@@ -210,7 +304,11 @@ class _DetailsPageState extends State<DetailsPage> {
                                         'movieID':
                                             movieController.movies.value.id
                                       };
-                                      addToFavorites(obj);
+                                      if (isFavorite) {
+                                        removeFromFavorites(obj);
+                                      } else {
+                                        addToFavorites(obj);
+                                      }
                                     },
                                     child: Icon(
                                         isFavorite
@@ -267,16 +365,17 @@ class _DetailsPageState extends State<DetailsPage> {
               ),
             ),
             const Padding(
-              padding: EdgeInsets.only(left: 12.0, bottom: 8),
-              child: Text1(text: 'Resumen'),
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+              child: TitleText(title: 'Sinopsis'),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 12.0, right: 12, bottom: 20),
-              child: Text2(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Text1(
                 text: movieController.movies.value.overview.toString(),
-                maxLines: 5,
+                fontSize: 15,
               ),
             ),
+            const SizedBox(height: 10),
             const Padding(
               padding: EdgeInsets.only(left: 12.0, bottom: 8),
               child: Text1(text: 'Reparto'),
@@ -305,6 +404,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         : const CircleIndicator();
                   }),
             ),
+            const SizedBox(height: 10),
             const Padding(
               padding: EdgeInsets.only(left: 12.0, bottom: 8, top: 20),
               child: Text1(text: 'Películas similares'),

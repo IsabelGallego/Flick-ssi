@@ -50,10 +50,11 @@ class _HomePageState extends State<HomePage> {
                       onPageChanged: (index, reason) {
                         if (index ==
                             ((movieController.popularMovies.length +
-                              movieController.topratedMovies.length +
-                              movieController.allMovies.length +
-                              movieController.trendingMovies.length) * 2 -1))
-                               {
+                                        movieController.topratedMovies.length +
+                                        movieController.allMovies.length +
+                                        movieController.trendingMovies.length) *
+                                    2 -
+                                1)) {
                           _carouselController.animateToPage(
                             0,
                             duration: const Duration(milliseconds: 500),
@@ -68,7 +69,6 @@ class _HomePageState extends State<HomePage> {
                         ...movieController.topratedMovies,
                         ...movieController.allMovies,
                         ...movieController.trendingMovies,
-                        
                       ];
 
                       final movieIndex = index % allMovies.length;
